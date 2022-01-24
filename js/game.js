@@ -13,6 +13,7 @@ const game = {
     platforms: [],
     enemyAttacks: [],
     balls: [],
+    player: undefined,
 
 
 
@@ -21,7 +22,7 @@ const game = {
         this.setSize()
         this.setEventHandlers()
         this.createPlayer()
-        this.createBall()
+
         this.createEnemy1()
         this.createEnemy2()
         this.createPlatform()
@@ -47,18 +48,27 @@ const game = {
     },
 
     createPlayer() {
-        this.player = new Player(this.ctx, 100, 100, 100, 100)
+        this.player = new Player(this.ctx, 100, 600, 100, 100)
 
     },
 
 
     createBall() {
-        this.balls.push(new Ball(this.ctx, this.player.playerPos.x + this.player.playerSize.w, this.player.playerPos.y + this.player.playerSize.h / 2, 75, 75))
+        console.log('bola creada')
+        this.balls.push(new Ball(this.ctx, this.player.playerPos.x + this.player.playerSize.w, this.player.playerPos.y + this.player.playerSize.h / 2, 20, 20))
+    },
+
+    createPlatform() {
+        this.platforms.push(
+            new Platform(this.ctx, 100, 500, 200, 70),
+            new Platform(this.ctx, 500, 500, 200, 70),
+            new Platform(this.ctx, 900, 300, 200, 70)
+        )
+
     },
 
     drawAll() {
         setInterval(() => {
-            console.log('fotograma')
             this.clearAll()
             this.player.draw()
             this.enemies1.forEach(elm => {
@@ -69,16 +79,36 @@ const game = {
             })
             this.platforms.forEach(elm => {
                 elm.draw()
+                this.checkCollision(elm)
             })
             this.balls.forEach(elm => {
                 elm.draw()
+                elm.ballMove()
+                elm.ballErase()
             })
             this.enemyAttacks.forEach(elm => {
                 elm.draw()
+            })
+            this.platforms.forEach(elm => {
 
             })
 
-        }, 10)
+
+        }, 1000 / 60)
+    },
+
+    checkCollision(elm) {
+        console.log(this.player.playerBaseline)   // SÍ CAMBIA
+
+        if (elm.platformPos.x < this.player.playerPos.x + this.player.playerSize.w &&
+            elm.platformPos.x + elm.platformSize.w > this.player.playerPos.x &&
+            elm.platformPos.y < this.player.playerPos.y + this.player.playerSize.h &&
+            elm.platformSize.h + elm.platformPos.y > this.player.playerPos.y) {
+
+            this.player.playerBaseline = elm.platformPos.y - elm.platformSize.h
+        } else {
+            this.player.playerBaseline = 600
+        }
     },
 
     clearAll() {
@@ -95,18 +125,16 @@ const game = {
         const enemy2 = new Enemy2(this.ctx, 500, 100, 100, 50)
         this.enemies2.push(enemy2)
     },
-    createPlatform() {
-        const platform = new Platform(this.ctx, 0, 500, 700, 25)
-        this.platforms.push(platform)
-    },
+
 
     setEventHandlers() {
         document.addEventListener('keydown', event => {
             const { key } = event
             key === 'ArrowRight' ? this.player.moveRight() : null
             key === 'ArrowLeft' ? this.player.moveLeft() : null
-            key === 'ArrowUp' ? this.player.moveUp() : null
-            key === 'ArrowDown' ? this.player.moveDown() : null
+            key === 'ArrowUp' ? this.player.jump() : null
+            key === 'e' ? this.createBall() : null
+
         })
     },
 
