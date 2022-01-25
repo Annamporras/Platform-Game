@@ -37,7 +37,7 @@ const game = {
 
     setContext() {
         this.ctx = document.querySelector('#canvas').getContext('2d')
-        console.log(this.ctx)
+
     },
 
     setSize() {
@@ -48,20 +48,20 @@ const game = {
     },
 
     createPlayer() {
-        this.player = new Player(this.ctx, 100, 600, 100, 100)
+        this.player = new Player(this.ctx, 250, 600, 100, 100)
 
     },
 
 
     createBall() {
-        console.log('bola creada')
+
         this.balls.push(new Ball(this.ctx, this.player.playerPos.x + this.player.playerSize.w, this.player.playerPos.y + this.player.playerSize.h / 2, 20, 20))
     },
 
     createPlatform() {
         this.platforms.push(
-            new Platform(this.ctx, 100, 500, 200, 70),
-            new Platform(this.ctx, 500, 500, 200, 70),
+            // new Platform(this.ctx, 100, 500, 200, 70),
+            // new Platform(this.ctx, 500, 500, 200, 70),
             new Platform(this.ctx, 900, 300, 200, 70)
         )
 
@@ -70,17 +70,21 @@ const game = {
     drawAll() {
         setInterval(() => {
             this.framesCounter++
+            this.framesCounter === 240 ? this.framesCounter = 0 : null
             this.clearAll()
             this.player.draw()
             this.enemies1.forEach(elm => {
                 elm.draw()
-                elm.move()
+                // elm.move()
+                elm.ballCollision()
+                elm.enemy1Collision()
                 elm.enemy1Erase()
 
             })
             this.enemies2.forEach(elm => {
                 elm.draw()
                 elm.move()
+                elm.ballCollision()
             })
             this.platforms.forEach(elm => {
                 elm.draw()
@@ -95,19 +99,34 @@ const game = {
                 this.enemies2.forEach(elm => { elm.createEnemyAttack() })
             }
             this.enemyAttacks.forEach(elm => {
-
                 elm.enemyAttackErase()
                 elm.draw()
                 elm.enemyAttackCollision()
+                elm.ballCollision()
             })
             this.platforms.forEach(elm => {
-
             })
-            console.log(this.player.playerLifeCounter)
-
-
         }, 1000 / this.FPS)
     },
+
+    //     ballCollision(balls,target) {
+
+    //         this.balls.forEach(ball => {
+    //             this.enemyAttacks.forEach((attack, idx) => {
+
+
+    //                 if (target.enemyAttackPos.x < ball.ballPos.x + ball.ballSize.w &&
+    //                     attack.enemyAttackPos.x + attack.enemyAttackSize.w > ball.ballPos.x &&
+    //                     attack.enemyAttackPos.y < ball.ballPos.y + ball.ballSize.h &&
+    //                     attack.enemyAttackSize.h + attack.enemyAttackPos.y > ball.ballPos.y) {
+    //                     console.log('bola colisionada')
+    //                    this.enemyAttacks.splice(idx, idx)
+    //                     console.log('objetivo eliminado')
+
+    //                 }
+    //             })
+    //         })
+    // ,
 
     checkCollision(elm) {
         let platformCollided = undefined
@@ -135,17 +154,19 @@ const game = {
 
     createEnemy1() {
         this.enemies1.push(
-            new Enemy1(this.ctx, this.gameSize.w, 600, 50, 100),
-            new Enemy1(this.ctx, 700, 600, 50, 100)
+            new Enemy1(this.ctx, 50, 600, 100, 100),
+            new Enemy1(this.ctx, 500, 600, 100, 100),
+            new Enemy1(this.ctx, 700, 600, 100, 100)
         )
     },
 
 
     createEnemy2() {
-        this.enemies2.push(
-            new Enemy2(this.ctx, 500, 100, 500, 300, 100, 50),
-            new Enemy2(this.ctx, 700, 200, 500, 300, 100, 50)
-        )
+        // this.enemies2.push(
+        //     new Enemy2(this.ctx, 500, 100, 500, 300, 100, 50),
+        //     new Enemy2(this.ctx, 600, 200, 500, 300, 50, 50),
+        //     new Enemy2(this.ctx, 700, 300, 500, 300, 50, 25)
+        // )
     },
 
 
@@ -156,7 +177,6 @@ const game = {
             key === 'ArrowLeft' ? this.player.moveLeft() : null
             key === 'ArrowUp' ? this.player.jump() : null
             key === 'e' ? this.createBall() : null
-
         })
     },
 

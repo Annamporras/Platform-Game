@@ -21,7 +21,7 @@ class Player {
         this.ctx.drawImage(this.imageInstance, this.playerPos.x, this.playerPos.y, this.playerSize.w, this.playerSize.h)
         this.moveDown()
         this.lifeBar()
-        console.error(this.playerBaseline)
+
         // NO CAMBIA
     }
 
