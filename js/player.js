@@ -6,7 +6,7 @@ class Player {
         this.playerBaseline = 600
         this.playerSpeed = { x: 50, y: 1 }
         this.playerGravity = 0.2
-        this.playerLifeCounter = 100
+        this.playerLifeCounter = 1000
         this.imageInstance = undefined
 
         this.init()
@@ -20,7 +20,9 @@ class Player {
     draw() {
         this.ctx.drawImage(this.imageInstance, this.playerPos.x, this.playerPos.y, this.playerSize.w, this.playerSize.h)
         this.moveDown()
-        console.error(this.playerBaseline)   // NO CAMBIA
+        this.lifeBar()
+        console.error(this.playerBaseline)
+        // NO CAMBIA
     }
 
 
@@ -35,7 +37,6 @@ class Player {
     moveRight() {
 
         if (this.playerPos.y !== this.playerBaseline) {
-            //this.playerPos.y = this.playerSpeed.x * this.playerGravity
             this.playerPos.x += this.playerSpeed.x * this.playerGravity
 
 
@@ -44,26 +45,13 @@ class Player {
 
         else { this.playerPos.x += this.playerSpeed.x * this.playerGravity }
     }
-    // if (this.playerPos.y < this.playerBaseline) {
-    //     this.playerPos.x += this.playerSpeed.x
-    //     this.playerPos.y += this.playerSpeed.y
-    //     this.playerSpeed.y += this.playerGravity
-    // }
 
-    // this.playerPos.x < game.gameSize.w ? this.playerPos.x += this.playerSpeed.x : null
 
     jump() {
         if (this.playerPos.y === this.playerBaseline) {
 
             this.playerPos.y -= 100
             this.playerSpeed.y -= 10
-
-
-            // } else {
-            //     this.playerPos.y -= 100
-            //     this.playerSpeed.y -= 10
-            // }
-
 
 
         }
@@ -84,5 +72,12 @@ class Player {
         }
     }
 
+    lifeBar() {
+        this.ctx.fillStyle = "red"
+        this.ctx.fillRect(50, 50, 100, 25)
+        this.ctx.fillStyle = "green"
+        this.ctx.fillRect(50, 50, this.playerLifeCounter / 10, 25)
+
+    }
 }
 

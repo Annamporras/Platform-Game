@@ -28,7 +28,7 @@ const game = {
         this.createPlatform()
 
 
-        this.enemies2.forEach(elm => { elm.createEnemyAttack() })
+
         this.drawAll()
 
 
@@ -69,43 +69,61 @@ const game = {
 
     drawAll() {
         setInterval(() => {
+            this.framesCounter++
             this.clearAll()
             this.player.draw()
             this.enemies1.forEach(elm => {
                 elm.draw()
+                elm.move()
+                elm.enemy1Erase()
+
             })
             this.enemies2.forEach(elm => {
                 elm.draw()
+                elm.move()
             })
             this.platforms.forEach(elm => {
                 elm.draw()
-                this.checkCollision(elm)
             })
+            this.checkCollision()
             this.balls.forEach(elm => {
                 elm.draw()
                 elm.ballMove()
                 elm.ballErase()
             })
+            if (this.framesCounter % 120 === 0) {
+                this.enemies2.forEach(elm => { elm.createEnemyAttack() })
+            }
             this.enemyAttacks.forEach(elm => {
+
+                elm.enemyAttackErase()
                 elm.draw()
+                elm.enemyAttackCollision()
             })
             this.platforms.forEach(elm => {
 
             })
+            console.log(this.player.playerLifeCounter)
 
 
-        }, 1000 / 60)
+        }, 1000 / this.FPS)
     },
 
     checkCollision(elm) {
-        console.log(this.player.playerBaseline)   // SÍ CAMBIA
+        let platformCollided = undefined
 
-        if (elm.platformPos.x < this.player.playerPos.x + this.player.playerSize.w &&
-            elm.platformPos.x + elm.platformSize.w > this.player.playerPos.x &&
-            elm.platformPos.y < this.player.playerPos.y + this.player.playerSize.h &&
-            elm.platformSize.h + elm.platformPos.y > this.player.playerPos.y) {
+        this.platforms.forEach(elm => {
+            if (
+                elm.platformPos.x < this.player.playerPos.x + this.player.playerSize.w &&
+                elm.platformPos.x + elm.platformSize.w > this.player.playerPos.x &&
+                elm.platformPos.y < this.player.playerPos.y + this.player.playerSize.h &&
+                elm.platformSize.h + elm.platformPos.y > this.player.playerPos.y
+            )
+                platformCollided = elm
+        })
+        if (platformCollided) {
+            this.player.playerBaseline = platformCollided.platformPos.y - platformCollided.platformSize.h
 
-            this.player.playerBaseline = elm.platformPos.y - elm.platformSize.h
         } else {
             this.player.playerBaseline = 600
         }
@@ -116,14 +134,18 @@ const game = {
     },
 
     createEnemy1() {
-        const enemy1 = new Enemy1(this.ctx, 300, 300, 50, 100)
-        this.enemies1.push(enemy1)
+        this.enemies1.push(
+            new Enemy1(this.ctx, this.gameSize.w, 600, 50, 100),
+            new Enemy1(this.ctx, 700, 600, 50, 100)
+        )
     },
 
 
     createEnemy2() {
-        const enemy2 = new Enemy2(this.ctx, 500, 100, 100, 50)
-        this.enemies2.push(enemy2)
+        this.enemies2.push(
+            new Enemy2(this.ctx, 500, 100, 500, 300, 100, 50),
+            new Enemy2(this.ctx, 700, 200, 500, 300, 100, 50)
+        )
     },
 
 
