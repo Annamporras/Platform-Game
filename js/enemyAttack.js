@@ -1,8 +1,6 @@
 class EnemyAttack {
 
     constructor(ctx, posX, posY, width, height) {
-
-
         this.ctx = ctx
         this.enemyAttackPos = { x: posX, y: posY }
         this.enemyAttackSize = { w: width, h: height }
@@ -43,15 +41,13 @@ class EnemyAttack {
             this.enemyAttackPos.y < game.player.playerPos.y + game.player.playerSize.h &&
             this.enemyAttackSize.h + this.enemyAttackPos.y > game.player.playerPos.y) {
 
-            game.player.playerLifeCounter--
+            game.player.playerLifeCounter -= 10
         }
     }
 
     ballCollision() {
-
         game.balls.forEach(ball => {
             game.enemyAttacks.forEach((attack, idx) => {
-
 
                 if (attack.enemyAttackPos.x < ball.ballPos.x + ball.ballSize.w &&
                     attack.enemyAttackPos.x + attack.enemyAttackSize.w > ball.ballPos.x &&
@@ -60,11 +56,9 @@ class EnemyAttack {
                     console.log('bola colisionada')
                     game.enemyAttacks.splice(idx, 1)
                     console.log('bola colisionada')
-
                 }
             })
         })
-
     }
 }
 

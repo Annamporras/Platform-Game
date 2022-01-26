@@ -19,22 +19,19 @@ class Enemy2 {
 
     draw() {
         this.ctx.drawImage(this.imageInstance, this.enemy2Pos.x, this.enemy2Pos.y, this.enemy2Size.w, this.enemy2Size.h)
-
     }
 
     createEnemyAttack() {
         game.enemyAttacks.push(new EnemyAttack(this.ctx, this.enemy2Pos.x + this.enemy2Size.w / 2, this.enemy2Pos.y + this.enemy2Size.h, 25, 25))
-
     }
 
     move() {
         this.enemy2Pos.x += this.enemy2Speed
         if (this.enemy2Pos.x > this.enemyOrigin + this.moveDistance || this.enemy2Pos.x < this.enemyOrigin - this.moveDistance) {
             this.enemy2Speed *= -1
-
         }
-
     }
+
     ballCollision() {
         game.balls.forEach(ball => {
             game.enemies2.forEach((attack, idx) => {
@@ -46,10 +43,8 @@ class Enemy2 {
                     console.log('bola colisionada')
                     game.enemies2.splice(idx, 1)
                     console.log('bola colisionada')
-
                 }
             })
         })
-
     }
 }

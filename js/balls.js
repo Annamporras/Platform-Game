@@ -1,8 +1,5 @@
 class Ball {
-
     constructor(ctx, posX, posY, width, height) {
-
-
         this.ctx = ctx
         this.ballPos = { x: posX, y: posY }
         this.ballSize = { w: width, h: height }
@@ -37,9 +34,6 @@ class Ball {
     }
 
     ballErase() {
-
         game.balls = game.balls.filter(elm => elm.bounceCount !== 3)
     }
-
-
 }

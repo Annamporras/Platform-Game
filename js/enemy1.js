@@ -16,7 +16,6 @@ class Enemy1 {
 
     draw() {
         this.ctx.drawImage(this.imageInstance, this.enemy1Pos.x, this.enemy1Pos.y, this.enemy1Size.w, this.enemy1Size.h)
-
     }
 
 
@@ -28,37 +27,48 @@ class Enemy1 {
         game.enemies1 = game.enemies1.filter(elm => elm.enemy1Pos.x >= 0 - elm.enemy1Size.w)
     }
 
-    enemy1Collision() {
-        game.enemies1.forEach((elm, idx) => {
-            if (game.player.playerPos.x + game.player.playerSize.w >= elm.enemy1Pos.x &&
-                game.player.playerPos.x < elm.enemy1Pos.x + elm.enemy1Size.w &&
-                game.player.playerPos.y + game.player.playerSize.h > elm.enemy1Pos.y
-            ) {
-                console.log('me mataaaaan')
-                game.player.playerLifeCounter -= 100
-            }
-            else if (game.player.playerPos.x + game.player.playerSize.w >= elm.enemy1Pos.x &&
-                game.player.playerPos.x < elm.enemy1Pos.x + elm.enemy1Size.w &&
-                game.player.playerPos.y + game.player.playerSize.h === elm.enemy1Pos.y) {
+    // enemy1Collision() {
+    //     game.enemies1.forEach((elm, idx) => {
+    //         if (game.player.playerPos.x + game.player.playerSize.w >= elm.enemy1Pos.x &&
+    //             game.player.playerPos.x < elm.enemy1Pos.x + elm.enemy1Size.w &&
+    //             game.player.playerPos.y + game.player.playerSize.h > elm.enemy1Pos.y &&
+    //             game.player.playerPos.y < elm.enemy1Pos.y + elm.enemy1Size.h) {
+    //             console.log('me mataaaaan')
+    //             game.player.playerLifeCounter -= 100
+    //         }
+    //         else if (game.player.playerPos.x + game.player.playerSize.w >= elm.enemy1Pos.x &&
+    //             game.player.playerPos.x < elm.enemy1Pos.x + elm.enemy1Size.w &&
+    //             game.player.playerPos.y + game.player.playerSize.h === elm.enemy1Pos.y) {
 
-                console.log('POR ARRIBA')
-                game.enemies1.splice(idx, 1)
-            }
-
-
-        })
-
-        // if (this.enemy1Pos.x < game.player.playerPos.x + game.player.playerSize.w &&
-        //     this.enemy1Pos.x + this.enemy1Size.w > game.player.playerPos.x &&
-        //     this.enemy1Pos.y < game.player.playerPos.y + game.player.playerSize.h &&
-        //     this.enemy1Size.h + this.enemy1Pos.y > game.player.playerPos.y) {
-
-        //     game.player.playerLifeCounter--
+    //             console.log('POR ARRIBA')
+    //             game.enemies1.splice(idx, 1)
+    //         }
+    //     })
+    // }
 
 
 
+    // enemy1Collision(elm) {
+    //     let enemy1Collided = undefined
 
-    }
+    //     game.enemies1.forEach(elm => {
+    //         if (game.player.playerPos.x + game.player.playerSize.w >= elm.enemy1Pos.x &&
+    //             game.player.playerPos.x < elm.enemy1Pos.x + elm.enemy1Size.w &&
+    //             game.player.playerPos.y + game.player.playerSize.h > elm.enemy1Pos.y &&
+    //             game.player.playerPos.y < elm.enemy1Pos.y + elm.enemy1Size.h)
+    //             enemy1Collided = elm
+    //     })
+    //     if (enemy1Collided) {
+    //         game.player.playerLifeCounter -= 100
+
+    //     }
+    // }
+
+
+
+
+
+
 
     ballCollision() {
         game.balls.forEach(ball => {

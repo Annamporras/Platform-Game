@@ -22,34 +22,25 @@ const game = {
         this.setSize()
         this.setEventHandlers()
         this.createPlayer()
-
         this.createEnemy1()
         this.createEnemy2()
         this.createPlatform()
-
-
-
         this.drawAll()
-
-
     },
 
 
     setContext() {
         this.ctx = document.querySelector('#canvas').getContext('2d')
-
     },
 
     setSize() {
-        this.gameSize = { w: window.innerWidth, h: window.innerHeight }
+        this.gameSize = { w: 1280, h: 720 }
         document.querySelector('#canvas').setAttribute('width', this.gameSize.w)
         document.querySelector('#canvas').setAttribute('height', this.gameSize.h)
-
     },
 
     createPlayer() {
-        this.player = new Player(this.ctx, 250, 600, 100, 100)
-
+        this.player = new Player(this.ctx, 250, 100, 100, 100)
     },
 
 
@@ -60,10 +51,32 @@ const game = {
 
     createPlatform() {
         this.platforms.push(
-            // new Platform(this.ctx, 100, 500, 200, 70),
-            // new Platform(this.ctx, 500, 500, 200, 70),
-            new Platform(this.ctx, 900, 300, 200, 70)
+            new Platform(this.ctx, 100, 500, 200, 70),
+            new Platform(this.ctx, 500, 500, 200, 70),
+            new Platform(this.ctx, 900, 300, 200, 70),
+            new Platform(this.ctx, 1400, 500, 200, 70)
         )
+    },
+
+
+    screenScrollAll() {
+        if (this.player.playerPos.x >= 700) {
+            this.platforms.forEach(elm => {
+                elm.platformPos.x -= this.player.playerSpeed.x / 2
+            })
+            this.enemies1.forEach(elm => {
+                elm.enemy1Pos.x -= this.player.playerSpeed.x / 2
+            })
+            this.enemies2.forEach(elm => {
+                elm.enemy2Pos.x -= this.player.playerSpeed.x / 2
+                elm.enemy2Origin -= this.player.playerSpeed.x / 2
+
+            })
+            this.enemyAttacks.forEach(elm => {
+                elm.enemyAttackPos.x -= this.player.playerSpeed.x / 2
+
+            })
+        }
 
     },
 
@@ -74,22 +87,28 @@ const game = {
             this.clearAll()
             this.player.draw()
             this.enemies1.forEach(elm => {
-                elm.draw()
-                // elm.move()
-                elm.ballCollision()
-                elm.enemy1Collision()
-                elm.enemy1Erase()
 
+
+                elm.draw()
+                elm.move()
+                elm.ballCollision()
+                // elm.enemy1Collision()
+                elm.enemy1Erase()
             })
+            this.enemy1Collision()
             this.enemies2.forEach(elm => {
+
+
                 elm.draw()
                 elm.move()
                 elm.ballCollision()
             })
+            this.enemy2Collision()
             this.platforms.forEach(elm => {
                 elm.draw()
             })
-            this.checkCollision()
+            this.platformCheckCollision()
+            // this.platformCollision()
             this.balls.forEach(elm => {
                 elm.draw()
                 elm.ballMove()
@@ -99,37 +118,22 @@ const game = {
                 this.enemies2.forEach(elm => { elm.createEnemyAttack() })
             }
             this.enemyAttacks.forEach(elm => {
+
                 elm.enemyAttackErase()
                 elm.draw()
                 elm.enemyAttackCollision()
                 elm.ballCollision()
             })
-            this.platforms.forEach(elm => {
-            })
+
+
+
         }, 1000 / this.FPS)
     },
 
-    //     ballCollision(balls,target) {
 
-    //         this.balls.forEach(ball => {
-    //             this.enemyAttacks.forEach((attack, idx) => {
-
-
-    //                 if (target.enemyAttackPos.x < ball.ballPos.x + ball.ballSize.w &&
-    //                     attack.enemyAttackPos.x + attack.enemyAttackSize.w > ball.ballPos.x &&
-    //                     attack.enemyAttackPos.y < ball.ballPos.y + ball.ballSize.h &&
-    //                     attack.enemyAttackSize.h + attack.enemyAttackPos.y > ball.ballPos.y) {
-    //                     console.log('bola colisionada')
-    //                    this.enemyAttacks.splice(idx, idx)
-    //                     console.log('objetivo eliminado')
-
-    //                 }
-    //             })
-    //         })
-    // ,
-
-    checkCollision(elm) {
+    platformCheckCollision(elm) {
         let platformCollided = undefined
+
 
         this.platforms.forEach(elm => {
             if (
@@ -148,32 +152,100 @@ const game = {
         }
     },
 
+    // platformCollision() {
+
+    //     this.platforms.forEach(elm => {
+    //         if (this.player.playerPos.y + this.player.playerSize.h <= elm.platformPos.y &&
+    //             this.player.playerPos.y +this.player.playerSize.h + this.player.playerSpeed.y >= elm.platformPos.y &&
+    //             ) {
+    //             this.player.playerSpeed.y = 0
+    //         }
+    //     })
+    // },
+
     clearAll() {
         this.ctx.clearRect(0, 0, this.gameSize.w, this.gameSize.h)
     },
 
     createEnemy1() {
         this.enemies1.push(
-            new Enemy1(this.ctx, 50, 600, 100, 100),
+            new Enemy1(this.ctx, 400, 600, 100, 50),
             new Enemy1(this.ctx, 500, 600, 100, 100),
-            new Enemy1(this.ctx, 700, 600, 100, 100)
+            new Enemy1(this.ctx, 700, 600, 100, 100),
+            new Enemy1(this.ctx, 1400, 600, 100, 100),
+            new Enemy1(this.ctx, 3000, 600, 100, 100),
+            new Enemy1(this.ctx, 2500, 600, 100, 100)
         )
     },
 
 
+
+    enemy1Collision() {
+        game.enemies1.forEach((elm, idx) => {
+            if (game.player.playerPos.x + game.player.playerSize.w >= elm.enemy1Pos.x &&
+                game.player.playerPos.x < elm.enemy1Pos.x + elm.enemy1Size.w &&
+                game.player.playerPos.y + game.player.playerSize.h > elm.enemy1Pos.y &&
+                game.player.playerPos.y < elm.enemy1Pos.y + elm.enemy1Size.h) {
+                console.log('me mataaaaan')
+                game.player.playerLifeCounter -= 100
+            }
+            else if (game.player.playerPos.x + game.player.playerSize.w >= elm.enemy1Pos.x &&
+                game.player.playerPos.x < elm.enemy1Pos.x + elm.enemy1Size.w &&
+                game.player.playerPos.y + game.player.playerSize.h === elm.enemy1Pos.y) {
+
+                console.log('POR ARRIBA')
+                game.enemies1.splice(idx, 1)
+            }
+        })
+    },
+
+    enemy2Collision(elm) {
+        let enemy2Collided = undefined
+
+
+        this.enemies2.forEach((elm, idx) => {
+            if (this.player.playerPos.x < this.player.playerSize.w >= elm.enemy2Pos.x &&
+                this.player.playerPos.x < elm.enemy2Pos.x + elm.enemy2Size.w &&
+                this.player.playerPos.y + this.player.playerSize.h > elm.enemy2Pos.y &&
+                this.player.playerPos.y < elm.enemy2Pos.y + elm.enemy2Size.h) {
+                enemy2Collided = elm
+            } if (this.player.playerPos.x + this.player.playerSize.w >= elm.enemy2Pos.x &&
+                this.player.playerPos.x < elm.enemy2Pos.x + elm.enemy2Size.w &&
+                this.player.playerPos.y < elm.enemy2Pos.y + elm.enemy2Size.h &&
+                this.player.playerPos.y + this.player.playerSize.h > elm.enemy2Pos.y) {
+
+                console.log('POR ARRIBA gaviota')
+                this.enemies2.splice(idx, 1)
+            }
+
+        })
+        if (enemy2Collided) {
+            console.log('memataaaaaaaaaaaaaaaaaaaaaaaan')
+            this.player.playerLifeCounter -= 1
+        }
+
+    },
+
+
     createEnemy2() {
-        // this.enemies2.push(
-        //     new Enemy2(this.ctx, 500, 100, 500, 300, 100, 50),
-        //     new Enemy2(this.ctx, 600, 200, 500, 300, 50, 50),
-        //     new Enemy2(this.ctx, 700, 300, 500, 300, 50, 25)
-        // )
+        this.enemies2.push(
+            new Enemy2(this.ctx, 500, 100, 500, 300, 100, 50),
+            new Enemy2(this.ctx, 600, 200, 500, 300, 50, 50),
+            new Enemy2(this.ctx, 700, 300, 500, 300, 50, 25),
+            new Enemy2(this.ctx, 1600, 300, 1600, 300, 50, 50),
+        )
     },
 
 
     setEventHandlers() {
         document.addEventListener('keydown', event => {
             const { key } = event
-            key === 'ArrowRight' ? this.player.moveRight() : null
+            if (key === 'ArrowRight') {
+                this.player.moveRight()
+                this.screenScrollAll()
+            }
+
+            // key === 'ArrowRight' ? this.player.moveRight() : null
             key === 'ArrowLeft' ? this.player.moveLeft() : null
             key === 'ArrowUp' ? this.player.jump() : null
             key === 'e' ? this.createBall() : null
