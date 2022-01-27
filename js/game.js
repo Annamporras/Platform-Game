@@ -69,7 +69,8 @@ const game = {
             })
             this.enemies2.forEach(elm => {
                 elm.enemy2Pos.x -= this.player.playerSpeed.x / 2
-                elm.enemy2Origin -= this.player.playerSpeed.x / 2
+                elm.enemy2S -= this.player.playerSpeed.x / 2
+                elm.enemy2F -= this.player.playerSpeed.x / 2
 
             })
             this.enemyAttacks.forEach(elm => {
@@ -229,10 +230,13 @@ const game = {
 
     createEnemy2() {
         this.enemies2.push(
-            new Enemy2(this.ctx, 500, 100, 500, 300, 100, 50),
-            new Enemy2(this.ctx, 600, 200, 500, 300, 50, 50),
-            new Enemy2(this.ctx, 700, 300, 500, 300, 50, 25),
-            new Enemy2(this.ctx, 1600, 300, 1600, 300, 50, 50),
+            new Enemy2(this.ctx, 400, 200, 350, 650, 50, 50),
+            new Enemy2(this.ctx, 800, 200, 700, 900, 50, 50),
+            new Enemy2(this.ctx, 1200, 200, 1000, 1400, 50, 50)
+
+            // new Enemy2(this.ctx, 600, 200, 500, 300, 50, 50),
+            // new Enemy2(this.ctx, 700, 300, 500, 300, 50, 25),
+            // new Enemy2(this.ctx, 1600, 300, 1600, 300, 50, 50),
         )
     },
 

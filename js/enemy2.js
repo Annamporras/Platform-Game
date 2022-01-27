@@ -1,9 +1,9 @@
 class Enemy2 {
-    constructor(ctx, posX, posY, posOr, moveDist, width, height,) {
+    constructor(ctx, posX, posY, posS, posF, width, height,) {
         this.ctx = ctx
         this.enemy2Pos = { x: posX, y: posY }
-        this.enemyOrigin = posOr
-        this.moveDistance = moveDist
+        this.enemy2S = posS
+        this.enemy2F = posF
         this.enemy2Size = { w: width, h: height }
         this.enemy2Baseline = undefined
         this.enemy2Speed = 2
@@ -27,7 +27,7 @@ class Enemy2 {
 
     move() {
         this.enemy2Pos.x += this.enemy2Speed
-        if (this.enemy2Pos.x > this.enemyOrigin + this.moveDistance || this.enemy2Pos.x < this.enemyOrigin - this.moveDistance) {
+        if (this.enemy2Pos.x >= this.enemy2F || this.enemy2Pos.x <= this.enemy2S) {
             this.enemy2Speed *= -1
         }
     }
