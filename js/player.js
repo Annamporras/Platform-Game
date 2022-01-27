@@ -14,17 +14,27 @@ class Player {
 
     init() {
         this.imageInstance = new Image()
-        this.imageInstance.src = 'img/block.png'
+        this.imageInstance.src = 'img/player.png'
+        this.imageInstance.frames = 3
+        this.imageInstance.framesIndex = 0
     }
 
-    draw() {
+    draw(framesCounter) {
 
-        this.ctx.drawImage(this.imageInstance, this.playerPos.x, this.playerPos.y, this.playerSize.w, this.playerSize.h)
+        this.ctx.drawImage(this.imageInstance, this.imageInstance.width / this.imageInstance.frames * this.imageInstance.framesIndex, 0, this.imageInstance.width / this.imageInstance.frames, this.imageInstance.height, this.playerPos.x, this.playerPos.y, this.playerSize.w, this.playerSize.h)
+        this.animate(framesCounter)
         this.moveDown()
         this.lifeBar()
-        // NO CAMBIA
-    }
 
+    }
+    animate(framesCounter) {
+        if (framesCounter % 7 == 0) {
+            this.imageInstance.framesIndex++;
+        }
+        if (this.imageInstance.framesIndex >= this.imageInstance.frames) {
+            this.imageInstance.framesIndex = 0;
+        }
+    }
 
     moveLeft() {
         if (this.playerPos.y !== this.playerBaseline) {
@@ -55,7 +65,7 @@ class Player {
     jump() {
         if (this.playerPos.y + this.playerSize.h >= this.playerBaseline) {
             this.playerPos.y -= 100
-            this.playerSpeed.y -= 20
+            this.playerSpeed.y -= 17
             console.log('saltandooo')
 
         }
@@ -87,10 +97,24 @@ class Player {
     // }
 
     lifeBar() {
+
+        this.ctx.fillStyle = "black"
+        this.ctx.fillRect(75, 45, 1005, 5)
         this.ctx.fillStyle = "red"
-        this.ctx.fillRect(50, 50, 1000, 25)
+        this.ctx.fillRect(75, 50, 1000, 35)
         this.ctx.fillStyle = "green"
-        this.ctx.fillRect(50, 50, this.playerLifeCounter, 25)
+        this.ctx.fillRect(75, 50, this.playerLifeCounter, 35)
+        this.ctx.fillStyle = "black"
+        this.ctx.fillRect(75, 80, 1005, 5)
+        this.ctx.fillRect(1075, 45, 5, 35)
+        this.insertImage()
+
+    }
+    insertImage() {
+        const imageInstance = new Image()
+        imageInstance.src = `img/bar.png`
+        this.ctx.drawImage(imageInstance, 15, 10, 100, 100)
     }
 }
+
 

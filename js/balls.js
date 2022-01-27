@@ -3,7 +3,7 @@ class Ball {
         this.ctx = ctx
         this.ballPos = { x: posX, y: posY }
         this.ballSize = { w: width, h: height }
-        this.ballSpeed = { x: 15, y: 1 }
+        this.ballSpeed = { x: 12, y: 1 }
         this.ballGravity = 3
         this.bounceCount = 0
 
@@ -27,7 +27,7 @@ class Ball {
         this.ballPos.y += this.ballSpeed.y
         this.ballSpeed.y += this.ballGravity
 
-        if (this.ballPos.y >= game.player.playerBaseline + game.player.playerSize.h) {
+        if (this.ballPos.y + this.ballSize.h >= game.player.playerBaseline + game.player.playerSize.h) {
             this.ballSpeed.y *= -1
             this.bounceCount++
         }

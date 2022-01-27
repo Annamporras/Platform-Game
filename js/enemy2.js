@@ -22,7 +22,7 @@ class Enemy2 {
     }
 
     createEnemyAttack() {
-        game.enemyAttacks.push(new EnemyAttack(this.ctx, this.enemy2Pos.x + this.enemy2Size.w / 2, this.enemy2Pos.y + this.enemy2Size.h, 25, 25))
+        game.enemyAttacks.push(new EnemyAttack(this.ctx, this.enemy2Pos.x + this.enemy2Size.w / 2, this.enemy2Pos.y + this.enemy2Size.h, 35, 35))
     }
 
     move() {

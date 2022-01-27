@@ -15,6 +15,8 @@ const game = {
     balls: [],
     player: undefined,
     background: undefined,
+    music: undefined,
+
 
 
 
@@ -28,6 +30,9 @@ const game = {
         this.createEnemy2()
         this.createPlatform()
         this.drawAll()
+        this.music = new Audio("./sounds/music_project.mp3")
+        this.music.volume = true
+        this.music.play()
     },
 
 
@@ -52,7 +57,7 @@ const game = {
     },
     createBall() {
 
-        this.balls.push(new Ball(this.ctx, this.player.playerPos.x + this.player.playerSize.w, this.player.playerPos.y + this.player.playerSize.h / 2, 20, 20))
+        this.balls.push(new Ball(this.ctx, this.player.playerPos.x + this.player.playerSize.w, this.player.playerPos.y + this.player.playerSize.h / 2, 35, 35))
     },
 
     createPlatform() {
@@ -100,9 +105,14 @@ const game = {
             this.framesCounter === 240 ? this.framesCounter = 0 : null
             this.clearAll()
             this.background.draw()
-            this.player.draw()
+            if (this.player.playerLifeCounter <= 20) {
+                clearInterval(timer)
+                this.drawText('GAME OVER')
+
+            }
+            this.player.draw(this.framesCounter)
             this.enemies1.forEach(elm => {
-                elm.draw()
+                elm.draw(this.framesCounter)
                 elm.move()
                 elm.ballCollision()
                 // elm.enemy1Collision()
@@ -144,7 +154,7 @@ const game = {
 
     drawText(text) {
         this.ctx.fillStyle = 'red'
-        this.ctx.font = 'bold 90px sans-serif'
+        this.ctx.font = 'bold 90px Mochiy Pop P One'
 
         this.ctx.fillText(text, 400, 350)
     },
@@ -158,6 +168,7 @@ const game = {
                 elm.platformPos.y < this.player.playerPos.y + this.player.playerSize.h &&
                 elm.platformSize.h + elm.platformPos.y > this.player.playerPos.y
             )
+                // )
                 platformCollided = elm
         })
         if (platformCollided) {
@@ -213,7 +224,6 @@ const game = {
             new Enemy1(this.ctx, 9000, 600, 100, 100),
             new Enemy1(this.ctx, 9500, 600, 100, 100),
             new Enemy1(this.ctx, 10600, 600, 100, 100),
-
         )
     },
 
@@ -226,7 +236,7 @@ const game = {
                 game.player.playerPos.y + game.player.playerSize.h > elm.enemy1Pos.y &&
                 game.player.playerPos.y < elm.enemy1Pos.y + elm.enemy1Size.h) {
                 console.log('me mataaaaan')
-                game.player.playerLifeCounter--
+                game.player.playerLifeCounter -= 10
             }
             else if (game.player.playerPos.x + game.player.playerSize.w >= elm.enemy1Pos.x &&
                 game.player.playerPos.x < elm.enemy1Pos.x + elm.enemy1Size.w &&
@@ -249,19 +259,19 @@ const game = {
                 this.player.playerPos.y < elm.enemy2Pos.y + elm.enemy2Size.h) {
                 enemy2Collided = elm
             }
-            if (this.player.playerPos.x + this.player.playerSize.w >= elm.enemy2Pos.x &&
-                this.player.playerPos.x < elm.enemy2Pos.x + elm.enemy2Size.w &&
-                this.player.playerPos.y < elm.enemy2Pos.y + elm.enemy2Size.h &&
-                this.player.playerPos.y + this.player.playerSize.h > elm.enemy2Pos.y) {
+            // if (this.player.playerPos.x + this.player.playerSize.w >= elm.enemy2Pos.x &&
+            //     this.player.playerPos.x < elm.enemy2Pos.x + elm.enemy2Size.w &&
+            //     this.player.playerPos.y < elm.enemy2Pos.y + elm.enemy2Size.h &&
+            //     this.player.playerPos.y + this.player.playerSize.h > elm.enemy2Pos.y) {
 
-                console.log('POR ARRIBA gaviota')
-                this.enemies2.splice(idx, 1)
-            }
+            //     console.log('POR ARRIBA gaviota')
+            //     this.enemies2.splice(idx, 1)
+            // }
 
         })
         if (enemy2Collided) {
             console.log('memataaaaaaaaaaaaaaaaaaaaaaaan')
-            this.player.playerLifeCounter--
+            this.player.playerLifeCounter -= 10
         }
 
     },
@@ -297,11 +307,14 @@ const game = {
                 this.screenScrollAll()
             }
 
-            // key === 'ArrowRight' ? this.player.moveRight() : null
-            key === 'ArrowLeft' ? this.player.moveLeft() : null
+            if (key === 'ArrowLeft') {
+                this.player.playerPos.x >= 35 ? this.player.moveLeft() : null
+            }
+            //key === 'ArrowLeft' ? this.player.moveLeft() : null
             key === 'ArrowUp' ? this.player.jump() : null
-            key === 'e' ? this.createBall() : null
-        })
-    },
+            key === ' ' ? this.createBall() : null
 
+
+        })
+    }
 }

@@ -11,11 +11,25 @@ class Enemy1 {
 
     init() {
         this.imageInstance = new Image()
-        this.imageInstance.src = 'img/rat.png'
+        this.imageInstance.src = 'img/Cow.png'
+        this.imageInstance.frames = 4
+        this.imageInstance.framesIndex = 0
     }
 
-    draw() {
-        this.ctx.drawImage(this.imageInstance, this.enemy1Pos.x, this.enemy1Pos.y, this.enemy1Size.w, this.enemy1Size.h)
+    draw(framesCounter) {
+        this.ctx.drawImage(this.imageInstance, this.imageInstance.width / this.imageInstance.frames * this.imageInstance.framesIndex, 0, this.imageInstance.width / this.imageInstance.frames, this.imageInstance.height, this.enemy1Pos.x, this.enemy1Pos.y, this.enemy1Size.w, this.enemy1Size.h)
+        this.animate(framesCounter)
+
+
+    }
+
+    animate(framesCounter) {
+        if (framesCounter % 7 == 0) {
+            this.imageInstance.framesIndex++;
+        }
+        if (this.imageInstance.framesIndex >= this.imageInstance.frames) {
+            this.imageInstance.framesIndex = 0;
+        }
     }
 
 
@@ -62,7 +76,7 @@ class Enemy1 {
     //             enemy1Collided = elm
     //     })
     //     if (enemy1Collided) {
-    //         game.player.playerLifeCounter -= 100
+    //         game.player.playerLifeCounter -= 5
 
     //     }
     // }
