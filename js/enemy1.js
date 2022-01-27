@@ -20,7 +20,10 @@ class Enemy1 {
 
 
     move() {
-        this.enemy1Pos.x -= this.enemy1Speed
+
+        if (game.player.playerPos.x + 900 >= this.enemy1Pos.x) {
+            this.enemy1Pos.x -= this.enemy1Speed
+        }
     }
 
     enemy1Erase() {

@@ -41,7 +41,7 @@ class EnemyAttack {
             this.enemyAttackPos.y < game.player.playerPos.y + game.player.playerSize.h &&
             this.enemyAttackSize.h + this.enemyAttackPos.y > game.player.playerPos.y) {
 
-            game.player.playerLifeCounter -= 10
+            game.player.playerLifeCounter--
         }
     }
 

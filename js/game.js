@@ -14,6 +14,7 @@ const game = {
     enemyAttacks: [],
     balls: [],
     player: undefined,
+    background: undefined,
 
 
 
@@ -21,12 +22,14 @@ const game = {
         this.setContext()
         this.setSize()
         this.setEventHandlers()
+        this.createBackground()
         this.createPlayer()
         this.createEnemy1()
         this.createEnemy2()
         this.createPlatform()
         this.drawAll()
     },
+
 
 
     setContext() {
@@ -39,11 +42,14 @@ const game = {
         document.querySelector('#canvas').setAttribute('height', this.gameSize.h)
     },
 
+
     createPlayer() {
         this.player = new Player(this.ctx, 250, 100, 100, 100)
     },
 
-
+    createBackground() {
+        this.background = new Background(this.ctx, this.gameSize.w, this.gameSize.h + 40)
+    },
     createBall() {
 
         this.balls.push(new Ball(this.ctx, this.player.playerPos.x + this.player.playerSize.w, this.player.playerPos.y + this.player.playerSize.h / 2, 20, 20))
@@ -51,10 +57,20 @@ const game = {
 
     createPlatform() {
         this.platforms.push(
-            new Platform(this.ctx, 100, 500, 200, 70),
-            new Platform(this.ctx, 500, 500, 200, 70),
-            new Platform(this.ctx, 900, 300, 200, 70),
-            new Platform(this.ctx, 1400, 500, 200, 70)
+            new Platform(this.ctx, 600, 500, 150, 70),
+            new Platform(this.ctx, 1200, 500, 200, 70),
+            new Platform(this.ctx, 1550, 300, 350, 70),
+            new Platform(this.ctx, 2100, 500, 100, 70),
+            new Platform(this.ctx, 2600, 500, 200, 70),
+            new Platform(this.ctx, 3000, 350, 50, 50),
+            new Platform(this.ctx, 3200, 200, 1000, 70),
+            new Platform(this.ctx, 4650, 500, 70, 70),
+            new Platform(this.ctx, 4900, 350, 70, 70),
+            new Platform(this.ctx, 5100, 200, 200, 70),
+            new Platform(this.ctx, 7000, 400, 200, 70),
+            new Platform(this.ctx, 7500, 400, 200, 70),
+            new Platform(this.ctx, 9500, 300, 200, 75),
+            new Platform(this.ctx, 9000, 500, 1000, 70),
         )
     },
 
@@ -71,25 +87,21 @@ const game = {
                 elm.enemy2Pos.x -= this.player.playerSpeed.x / 2
                 elm.enemy2S -= this.player.playerSpeed.x / 2
                 elm.enemy2F -= this.player.playerSpeed.x / 2
-
             })
             this.enemyAttacks.forEach(elm => {
                 elm.enemyAttackPos.x -= this.player.playerSpeed.x / 2
-
             })
         }
-
     },
 
     drawAll() {
-        setInterval(() => {
+        timer = setInterval(() => {
             this.framesCounter++
             this.framesCounter === 240 ? this.framesCounter = 0 : null
             this.clearAll()
+            this.background.draw()
             this.player.draw()
             this.enemies1.forEach(elm => {
-
-
                 elm.draw()
                 elm.move()
                 elm.ballCollision()
@@ -98,8 +110,6 @@ const game = {
             })
             this.enemy1Collision()
             this.enemies2.forEach(elm => {
-
-
                 elm.draw()
                 elm.move()
                 elm.ballCollision()
@@ -107,6 +117,10 @@ const game = {
             this.enemy2Collision()
             this.platforms.forEach(elm => {
                 elm.draw()
+                if (elm.platformPos.x <= -9000) {
+                    clearInterval(timer)
+                    this.drawText('YOU WIN!!')
+                }
             })
             this.platformCheckCollision()
             // this.platformCollision()
@@ -119,22 +133,23 @@ const game = {
                 this.enemies2.forEach(elm => { elm.createEnemyAttack() })
             }
             this.enemyAttacks.forEach(elm => {
-
                 elm.enemyAttackErase()
                 elm.draw()
                 elm.enemyAttackCollision()
                 elm.ballCollision()
             })
-
-
-
         }, 1000 / this.FPS)
     },
 
 
+    drawText(text) {
+        this.ctx.fillStyle = 'red'
+        this.ctx.font = 'bold 90px sans-serif'
+
+        this.ctx.fillText(text, 400, 350)
+    },
     platformCheckCollision(elm) {
         let platformCollided = undefined
-
 
         this.platforms.forEach(elm => {
             if (
@@ -170,12 +185,35 @@ const game = {
 
     createEnemy1() {
         this.enemies1.push(
-            new Enemy1(this.ctx, 400, 600, 100, 50),
-            new Enemy1(this.ctx, 500, 600, 100, 100),
-            new Enemy1(this.ctx, 700, 600, 100, 100),
-            new Enemy1(this.ctx, 1400, 600, 100, 100),
+            new Enemy1(this.ctx, 800, 600, 100, 100),
+            new Enemy1(this.ctx, 2500, 600, 100, 100),
+            new Enemy1(this.ctx, 1000, 600, 100, 100),
+            new Enemy1(this.ctx, 1300, 600, 100, 100),
+            new Enemy1(this.ctx, 1800, 600, 100, 100),
+            new Enemy1(this.ctx, 2000, 600, 100, 100),
             new Enemy1(this.ctx, 3000, 600, 100, 100),
-            new Enemy1(this.ctx, 2500, 600, 100, 100)
+            new Enemy1(this.ctx, 3500, 600, 100, 100),
+            new Enemy1(this.ctx, 3900, 600, 100, 100),
+            new Enemy1(this.ctx, 4200, 600, 100, 100),
+            new Enemy1(this.ctx, 4400, 600, 100, 100),
+            new Enemy1(this.ctx, 4800, 600, 100, 100),
+            new Enemy1(this.ctx, 5000, 600, 100, 100),
+            new Enemy1(this.ctx, 5400, 600, 100, 100),
+            new Enemy1(this.ctx, 5700, 600, 100, 100),
+            new Enemy1(this.ctx, 6000, 600, 100, 100),
+            new Enemy1(this.ctx, 6400, 600, 100, 100),
+            new Enemy1(this.ctx, 6800, 600, 100, 100),
+            new Enemy1(this.ctx, 7000, 600, 100, 100),
+            new Enemy1(this.ctx, 7400, 600, 100, 100),
+            new Enemy1(this.ctx, 7600, 600, 100, 100),
+            new Enemy1(this.ctx, 8000, 600, 100, 100),
+            new Enemy1(this.ctx, 8100, 600, 100, 100),
+            new Enemy1(this.ctx, 8250, 600, 100, 100),
+            new Enemy1(this.ctx, 8500, 600, 100, 100),
+            new Enemy1(this.ctx, 9000, 600, 100, 100),
+            new Enemy1(this.ctx, 9500, 600, 100, 100),
+            new Enemy1(this.ctx, 10600, 600, 100, 100),
+
         )
     },
 
@@ -188,7 +226,7 @@ const game = {
                 game.player.playerPos.y + game.player.playerSize.h > elm.enemy1Pos.y &&
                 game.player.playerPos.y < elm.enemy1Pos.y + elm.enemy1Size.h) {
                 console.log('me mataaaaan')
-                game.player.playerLifeCounter -= 100
+                game.player.playerLifeCounter--
             }
             else if (game.player.playerPos.x + game.player.playerSize.w >= elm.enemy1Pos.x &&
                 game.player.playerPos.x < elm.enemy1Pos.x + elm.enemy1Size.w &&
@@ -210,7 +248,8 @@ const game = {
                 this.player.playerPos.y + this.player.playerSize.h > elm.enemy2Pos.y &&
                 this.player.playerPos.y < elm.enemy2Pos.y + elm.enemy2Size.h) {
                 enemy2Collided = elm
-            } if (this.player.playerPos.x + this.player.playerSize.w >= elm.enemy2Pos.x &&
+            }
+            if (this.player.playerPos.x + this.player.playerSize.w >= elm.enemy2Pos.x &&
                 this.player.playerPos.x < elm.enemy2Pos.x + elm.enemy2Size.w &&
                 this.player.playerPos.y < elm.enemy2Pos.y + elm.enemy2Size.h &&
                 this.player.playerPos.y + this.player.playerSize.h > elm.enemy2Pos.y) {
@@ -222,7 +261,7 @@ const game = {
         })
         if (enemy2Collided) {
             console.log('memataaaaaaaaaaaaaaaaaaaaaaaan')
-            this.player.playerLifeCounter -= 1
+            this.player.playerLifeCounter--
         }
 
     },
@@ -230,13 +269,22 @@ const game = {
 
     createEnemy2() {
         this.enemies2.push(
-            new Enemy2(this.ctx, 400, 200, 350, 650, 50, 50),
-            new Enemy2(this.ctx, 800, 200, 700, 900, 50, 50),
-            new Enemy2(this.ctx, 1200, 200, 1000, 1400, 50, 50)
+            new Enemy2(this.ctx, 500, 100, 450, 700, 100, 50),
+            new Enemy2(this.ctx, 1600, 390, 1550, 1850, 100, 50),
+            new Enemy2(this.ctx, 2850, 150, 2800, 3095, 100, 50),
 
-            // new Enemy2(this.ctx, 600, 200, 500, 300, 50, 50),
-            // new Enemy2(this.ctx, 700, 300, 500, 300, 50, 25),
-            // new Enemy2(this.ctx, 1600, 300, 1600, 300, 50, 50),
+            new Enemy2(this.ctx, 3250, 275, 3200, 3580, 100, 50),
+            new Enemy2(this.ctx, 3700, 275, 3580, 3910, 100, 50),
+            new Enemy2(this.ctx, 3920, 275, 3910, 4200, 100, 50),
+            new Enemy2(this.ctx, 4700, 125, 4400, 5100, 100, 50),
+
+            new Enemy2(this.ctx, 5200, 125, 5100, 5500, 100, 50),
+            new Enemy2(this.ctx, 5700, 125, 5500, 5900, 100, 50),
+            new Enemy2(this.ctx, 6000, 125, 5900, 6300, 100, 50),
+            new Enemy2(this.ctx, 6550, 125, 6300, 6700, 100, 50),
+            new Enemy2(this.ctx, 6850, 125, 6700, 7000, 100, 50),
+            new Enemy2(this.ctx, 6700, 225, 5500, 6950, 100, 50),
+            new Enemy2(this.ctx, 5700, 225, 5500, 6950, 100, 50)
         )
     },
 

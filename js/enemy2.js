@@ -27,7 +27,7 @@ class Enemy2 {
 
     move() {
         this.enemy2Pos.x += this.enemy2Speed
-        if (this.enemy2Pos.x >= this.enemy2F || this.enemy2Pos.x <= this.enemy2S) {
+        if (this.enemy2Pos.x + this.enemy2Size.w >= this.enemy2F || this.enemy2Pos.x <= this.enemy2S) {
             this.enemy2Speed *= -1
         }
     }

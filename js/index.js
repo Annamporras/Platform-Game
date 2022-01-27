@@ -1,1 +1,6 @@
-window.onload = () => game.init()
+window.onload = () => {
+    document.getElementById('start').onclick = () => {
+        game.init()
+    }
+
+}

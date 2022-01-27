@@ -6,7 +6,7 @@ class Player {
         this.playerBaseline = 600
         this.playerSpeed = { x: 10, y: 1 }
         this.playerGravity = 0.5
-        this.playerLifeCounter = 5000
+        this.playerLifeCounter = 1000
         this.imageInstance = undefined
 
         this.init()
@@ -88,9 +88,9 @@ class Player {
 
     lifeBar() {
         this.ctx.fillStyle = "red"
-        this.ctx.fillRect(50, 50, 100, 25)
+        this.ctx.fillRect(50, 50, 1000, 25)
         this.ctx.fillStyle = "green"
-        this.ctx.fillRect(50, 50, this.playerLifeCounter / 50, 25)
+        this.ctx.fillRect(50, 50, this.playerLifeCounter, 25)
     }
 }
 
