@@ -115,7 +115,6 @@ const game = {
                 elm.draw(this.framesCounter)
                 elm.move()
                 elm.ballCollision()
-                // elm.enemy1Collision()
                 elm.enemy1Erase()
             })
             this.enemy1Collision()
@@ -133,7 +132,6 @@ const game = {
                 }
             })
             this.platformCheckCollision()
-            // this.platformCollision()
             this.balls.forEach(elm => {
                 elm.draw()
                 elm.ballMove()
@@ -165,10 +163,11 @@ const game = {
             if (
                 elm.platformPos.x < this.player.playerPos.x + this.player.playerSize.w &&
                 elm.platformPos.x + elm.platformSize.w > this.player.playerPos.x &&
-                elm.platformPos.y < this.player.playerPos.y + this.player.playerSize.h &&
+                elm.platformPos.y < this.player.playerPos.y + this.player.playerSize.h
+                &&
                 elm.platformSize.h + elm.platformPos.y > this.player.playerPos.y
             )
-                // )
+
                 platformCollided = elm
         })
         if (platformCollided) {
@@ -179,16 +178,6 @@ const game = {
         }
     },
 
-    // platformCollision() {
-
-    //     this.platforms.forEach(elm => {
-    //         if (this.player.playerPos.y + this.player.playerSize.h <= elm.platformPos.y &&
-    //             this.player.playerPos.y +this.player.playerSize.h + this.player.playerSpeed.y >= elm.platformPos.y &&
-    //             ) {
-    //             this.player.playerSpeed.y = 0
-    //         }
-    //     })
-    // },
 
     clearAll() {
         this.ctx.clearRect(0, 0, this.gameSize.w, this.gameSize.h)
@@ -259,21 +248,12 @@ const game = {
                 this.player.playerPos.y < elm.enemy2Pos.y + elm.enemy2Size.h) {
                 enemy2Collided = elm
             }
-            // if (this.player.playerPos.x + this.player.playerSize.w >= elm.enemy2Pos.x &&
-            //     this.player.playerPos.x < elm.enemy2Pos.x + elm.enemy2Size.w &&
-            //     this.player.playerPos.y < elm.enemy2Pos.y + elm.enemy2Size.h &&
-            //     this.player.playerPos.y + this.player.playerSize.h > elm.enemy2Pos.y) {
-
-            //     console.log('POR ARRIBA gaviota')
-            //     this.enemies2.splice(idx, 1)
-            // }
-
         })
+
         if (enemy2Collided) {
             console.log('memataaaaaaaaaaaaaaaaaaaaaaaan')
             this.player.playerLifeCounter -= 10
         }
-
     },
 
 
@@ -310,7 +290,6 @@ const game = {
             if (key === 'ArrowLeft') {
                 this.player.playerPos.x >= 35 ? this.player.moveLeft() : null
             }
-            //key === 'ArrowLeft' ? this.player.moveLeft() : null
             key === 'ArrowUp' ? this.player.jump() : null
             key === ' ' ? this.createBall() : null
 

@@ -41,7 +41,6 @@ class Player {
             this.playerPos.x -= this.playerSpeed.x * this.playerGravity
         } else { this.playerPos.x -= this.playerSpeed.x * this.playerGravity }
 
-        // this.playerPos.x -= this.playerSpeed.x
     }
 
     moveRight() {
@@ -51,17 +50,10 @@ class Player {
             } else { this.playerPos.x += this.playerSpeed.x * this.playerGravity }
         }
 
-        // this.playerPos.x += this.playerSpeed.x
+
     }
 
-    // jump() {
-    //     if (this.playerPos.y + this.playerSize.h >= this.playerBaseline) {
-    //         // this.playerPos.y -= 100
-    //         this.playerSpeed.y -= 20
-    //         console.log('saltandooo')
 
-    //     }
-    // }
     jump() {
         if (this.playerPos.y + this.playerSize.h >= this.playerBaseline) {
             this.playerPos.y -= 100
@@ -85,16 +77,7 @@ class Player {
         }
     }
 
-    // moveDown() {
-    //     // if (this.playerPos.y < this.playerBaseline) 
-    //     this.playerPos.y += this.playerSpeed.y
 
-    //     if (this.playerPos.y + this.playerSize.h + this.playerSpeed.y <= this.playerBaseline) {
-    //         this.playerSpeed.y += this.playerGravity
-    //     }
-    //     else { this.playerSpeed.y = 0 }
-
-    // }
 
     lifeBar() {
 
