@@ -153,7 +153,7 @@ const game = {
 
 
     drawText(text) {
-        this.ctx.fillStyle = 'red'
+        this.ctx.fillStyle = 'rgb(234, 0, 255)'
         this.ctx.font = 'bold 90px Mochiy Pop P One'
 
         this.ctx.fillText(text, 400, 350)

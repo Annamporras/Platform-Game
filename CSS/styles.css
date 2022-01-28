@@ -1,11 +1,12 @@
 
 
 body{
+    background-color: rgba(15, 228, 214, 0.421);
     padding: 10px;
     text-align: center;
     display:flex;
     font-family: 'Mochiy Pop P One', sans-serif;
-    background-color: white (0, 119, 255);
+   
 }
 section{
     margin:5px;
